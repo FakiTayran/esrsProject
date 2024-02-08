@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 25.0.1706.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "realEstateManagement", "realEstateManagement\realEstateManagement.csproj", "{365CC90C-5482-42C9-B664-D6A77D5C93D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "realEstateManagementAPI", "realEstateManagement\realEstateManagementAPI.csproj", "{365CC90C-5482-42C9-B664-D6A77D5C93D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "realEstateManagementBusinessLayer", "realEstateManagementBusinessLayer\realEstateManagementBusinessLayer.csproj", "{3BB62DD5-BB6A-403B-A825-F6C0918D0B2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "realEstateManagementEntities", "realEstateManagementEntities\realEstateManagementEntities.csproj", "{7970076E-7051-4C7D-BE28-BA76D2309039}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "realEstateManagementDataLayer", "realEstateManagementDataLayer\realEstateManagementDataLayer.csproj", "{8A9C99E6-0BF2-4EBA-9EC3-1AADE286920E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{365CC90C-5482-42C9-B664-D6A77D5C93D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{365CC90C-5482-42C9-B664-D6A77D5C93D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{365CC90C-5482-42C9-B664-D6A77D5C93D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BB62DD5-BB6A-403B-A825-F6C0918D0B2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BB62DD5-BB6A-403B-A825-F6C0918D0B2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BB62DD5-BB6A-403B-A825-F6C0918D0B2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BB62DD5-BB6A-403B-A825-F6C0918D0B2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7970076E-7051-4C7D-BE28-BA76D2309039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7970076E-7051-4C7D-BE28-BA76D2309039}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7970076E-7051-4C7D-BE28-BA76D2309039}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7970076E-7051-4C7D-BE28-BA76D2309039}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A9C99E6-0BF2-4EBA-9EC3-1AADE286920E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A9C99E6-0BF2-4EBA-9EC3-1AADE286920E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A9C99E6-0BF2-4EBA-9EC3-1AADE286920E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A9C99E6-0BF2-4EBA-9EC3-1AADE286920E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

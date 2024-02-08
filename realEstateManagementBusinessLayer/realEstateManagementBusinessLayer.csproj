@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Abstract\" />
+    <None Remove="Concrete\" />
+    <None Remove="Concrete\Spesification\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Abstract\" />
+    <Folder Include="Concrete\" />
+    <Folder Include="Concrete\Spesification\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\realEstateManagementEntities\realEstateManagementEntities.csproj" />
+    <ProjectReference Include="..\realEstateManagementDataLayer\realEstateManagementDataLayer.csproj" />
+  </ItemGroup>
+</Project>
