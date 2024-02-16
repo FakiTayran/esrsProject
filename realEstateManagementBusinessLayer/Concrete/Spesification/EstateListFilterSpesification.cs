@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 using Ardalis.Specification;
 using Microsoft.Extensions.Logging;
-using realEstateManagement.Data;
 using realEstateManagementEntities.Models;
 
 namespace realEstateManagementBusinessLayer.Concrete.Spesification
