@@ -12,9 +12,9 @@ namespace realEstateManagementDataLayer.Concrete
 {
     public class EFRepository<T> : IAsyncRepository<T> where T : BaseEntity
     {
-        private readonly realEstateManagementDbContext _dbContext;
+        private readonly RealEstateManagementDbContext _dbContext;
 
-        public EFRepository(realEstateManagementDbContext dbContext)
+        public EFRepository(RealEstateManagementDbContext dbContext)
         {
             _dbContext = dbContext;
         }

@@ -5,7 +5,7 @@ namespace realEstateManagementEntities.Models
 {
     public class EstatePicture : BaseEntity
     {
-        public required string ImageUrl { get; set; }
+        public required byte img { get; set; }
 
         [ForeignKey("Estate")]
         public int EstateId { get; set; }
