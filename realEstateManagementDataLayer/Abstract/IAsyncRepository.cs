@@ -23,6 +23,7 @@ namespace realEstateManagementDataLayer.Abstract
             Task<T> FirstAsync(ISpecification<T> spec);
 
             Task<T> FirstOrDefaultAsync(ISpecification<T> spec);
+
         }   
 }
 

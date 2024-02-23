@@ -26,9 +26,9 @@ namespace realEstateManagementBusinessLayer.Concrete
             await _asyncRepository.DeleteAsync(estate);
         }
 
-        public Task EditEstate(Estate estate)
+        public async Task EditEstate(Estate estate)
         {
-            throw new NotImplementedException();
+            await _asyncRepository.UpdateAsync(estate);
         }
 
         public async Task<Estate> GetByIdAsync(int id)
@@ -41,7 +41,7 @@ namespace realEstateManagementBusinessLayer.Concrete
             return await _asyncRepository.ListAsync(spec);
         }
 
-      
+        
     }
 }
 

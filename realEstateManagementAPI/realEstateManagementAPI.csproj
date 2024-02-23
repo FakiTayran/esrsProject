@@ -33,5 +33,11 @@
     <ProjectReference Include="..\realEstateManagementDataLayer\realEstateManagementDataLayer.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\realEstateManagementBusinessLayer\realEstateManagementBusinessLayer.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\realEstateManagementEntities\realEstateManagementEntities.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 </Project>

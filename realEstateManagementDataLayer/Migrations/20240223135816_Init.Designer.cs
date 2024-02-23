@@ -12,8 +12,8 @@ using realEstateManagementDataLayer.EntityFramework;
 namespace realEstateManagementDataLayer.Migrations
 {
     [DbContext(typeof(RealEstateManagementDbContext))]
-    [Migration("20240216001252_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240223135816_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -286,8 +286,9 @@ namespace realEstateManagementDataLayer.Migrations
                     b.Property<int>("EstateId")
                         .HasColumnType("integer");
 
-                    b.Property<byte>("img")
-                        .HasColumnType("smallint");
+                    b.Property<byte[]>("img")
+                        .IsRequired()
+                        .HasColumnType("bytea");
 
                     b.HasKey("Id");
 

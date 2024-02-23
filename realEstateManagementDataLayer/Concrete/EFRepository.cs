@@ -63,6 +63,8 @@ namespace realEstateManagementDataLayer.Concrete
             return await ApplySpecification(spec).ToListAsync();
         }
 
+     
+
         public async Task UpdateAsync(T entity)
         {
             _dbContext.Set<T>().Update(entity);

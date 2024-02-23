@@ -17,6 +17,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using realEstateManagementAPI;
+using realEstateManagementBusinessLayer.Abstract;
+using realEstateManagementBusinessLayer.Concrete;
 using realEstateManagementDataLayer.EntityFramework;
 using realEstateManagementEntities.Models;
 
@@ -34,7 +36,16 @@ namespace realEstateManagement
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowAll",
+                                  builder =>
+                                  {
+                                      builder.AllowAnyOrigin()
+                                             .AllowAnyMethod()
+                                             .AllowAnyHeader();
+                                  });
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -78,8 +89,9 @@ namespace realEstateManagement
                 });
 
 
-            //services.AddScoped<IEstateService, EstateManager>();
-            //services.AddTransient<IFileUpload, FileSystemFileUploader>();
+
+           
+            services.AddScoped<IEstateService, EstateManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,6 +103,7 @@ namespace realEstateManagement
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "realEstateManagement v1"));
             }
+            app.UseCors("AllowAll"); 
 
             app.UseHttpsRedirection();
 

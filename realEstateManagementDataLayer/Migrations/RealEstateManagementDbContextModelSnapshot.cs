@@ -283,8 +283,9 @@ namespace realEstateManagementDataLayer.Migrations
                     b.Property<int>("EstateId")
                         .HasColumnType("integer");
 
-                    b.Property<byte>("img")
-                        .HasColumnType("smallint");
+                    b.Property<byte[]>("img")
+                        .IsRequired()
+                        .HasColumnType("bytea");
 
                     b.HasKey("Id");
 

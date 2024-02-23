@@ -5,11 +5,10 @@ namespace realEstateManagementEntities.Models
 {
     public class EstatePicture : BaseEntity
     {
-        public required byte img { get; set; }
+        public required byte[] img { get; set; }
 
         [ForeignKey("Estate")]
         public int EstateId { get; set; }
         public virtual required Estate Estate { get; set; }
     }
 }
-

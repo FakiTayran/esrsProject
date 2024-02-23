@@ -12,6 +12,7 @@ namespace realEstateManagementBusinessLayer.Abstract
         Task EditEstate(Estate estate);
         Task Delete(Estate estate);
         Task<Estate> GetByIdAsync(int id);
+       
     }
 }
 

@@ -14,7 +14,8 @@ namespace realEstateManagementBusinessLayer.Concrete
             _asyncRepository = asyncRepository;
         }
 
-        public async Task<EstatePicture> AddEstate(EstatePicture estatePicture)
+     
+        public async Task<EstatePicture> AddEstatePicture(EstatePicture estatePicture)
         {
             return await _asyncRepository.AddAsync(estatePicture);
         }

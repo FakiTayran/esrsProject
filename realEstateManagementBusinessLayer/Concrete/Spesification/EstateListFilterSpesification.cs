@@ -9,24 +9,43 @@ namespace realEstateManagementBusinessLayer.Concrete.Spesification
 {
     public class EstateFilterSpesification : Specification<Estate>
     {
-        //public EstateFilterSpesification(int numberOfRooms, string? city, string? postcode, string searchContent,PropertyType PR)
-        //{
-        //    if (time != null && (time.Contains("Giorno") || time.Contains("Mese") || time.Contains("Gün") || time.Contains("Ay")))
-        //    {
-        //        time = null;
-        //    }
+        public EstateFilterSpesification(EstateType? estateType, PropertyType? propertyType, int? numberOfRooms, string? city, string? postCode, string? searchText, string? adminUserId)
+        {
+            if (estateType.HasValue)
+            {
+                Query.Where(x => x.EstateType == estateType.Value);
+            }
 
+            if (propertyType.HasValue)
+            {
+                Query.Where(x => x.PropertyType == propertyType.Value);
+            }
 
-        //    if (type != null && (type == "Hepsi" || type == "Tutte"))
-        //    {
-        //        type = null;
-        //    }
-        //    if (jsonLanguage == null)
-        //    {
-        //        jsonLanguage = "#it";
-        //    }
-        //    Query.Where(x => (x.OwnerId == userId && x.Language == jsonLanguage) && (string.IsNullOrEmpty(type) || x.Category == type) && (string.IsNullOrEmpty(time) || x.Time == time) && (!(searchContent != null) || x.Id.ToString().Contains(searchContent) || x.Category.ToLower().Contains(searchContent) || x.Time.ToLower().Contains(searchContent) || x.Description.ToLower().Contains(searchContent)));
-        //}
+            if (numberOfRooms.HasValue)
+            {
+                Query.Where(x => x.NumberOfRooms == numberOfRooms.Value);
+            }
+
+            if (!string.IsNullOrEmpty(city))
+            {
+                Query.Where(x => x.City == city);
+            }
+
+            if (!string.IsNullOrEmpty(postCode))
+            {
+                Query.Where(x => x.PostCode == postCode);
+            }
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                Query.Where(x => x.Id.ToString().Contains(searchText) || x.Description.ToLower().Contains(searchText));
+            }
+
+            if (!string.IsNullOrEmpty(adminUserId))
+            {
+                Query.Where(x => x.EstateAgent.Id == adminUserId);
+            }
+        }
     }
 }
 

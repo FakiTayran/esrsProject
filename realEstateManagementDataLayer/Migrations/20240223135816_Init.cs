@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace realEstateManagementDataLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -191,7 +191,7 @@ namespace realEstateManagementDataLayer.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    img = table.Column<byte>(type: "smallint", nullable: false),
+                    img = table.Column<byte[]>(type: "bytea", nullable: false),
                     EstateId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
