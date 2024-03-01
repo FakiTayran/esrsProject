@@ -14,6 +14,7 @@ using realEstateManagementEntities.Models.Dtos;
 
 namespace realEstateManagementAPI.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         //private readonly IAgentService _customerService;

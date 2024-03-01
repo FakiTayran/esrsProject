@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,6 +20,8 @@ using Microsoft.OpenApi.Models;
 using realEstateManagementAPI;
 using realEstateManagementBusinessLayer.Abstract;
 using realEstateManagementBusinessLayer.Concrete;
+using realEstateManagementDataLayer.Abstract;
+using realEstateManagementDataLayer.Concrete;
 using realEstateManagementDataLayer.EntityFramework;
 using realEstateManagementEntities.Models;
 
@@ -89,10 +92,11 @@ namespace realEstateManagement
                             Encoding.UTF8.GetBytes(appSettings.JwtSecret))
                     };
                 });
-
-
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(EFRepository<>));
             services.AddScoped<IEstateService, EstateManager>();
             services.AddScoped<IEstatePictureService, EstatePictureManager>();
+            services.AddTransient<ClaimsPrincipal>(
+               s => s.GetService<IHttpContextAccessor>().HttpContext.User);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -113,6 +117,7 @@ namespace realEstateManagement
             app.UseAuthentication();
 
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
