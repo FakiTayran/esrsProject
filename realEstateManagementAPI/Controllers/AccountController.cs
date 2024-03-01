@@ -22,11 +22,11 @@ namespace realEstateManagementAPI.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<AdminUser> _userManager;
         private readonly IOptions<AppSettings> _appSettings;
         private readonly RealEstateManagementDbContext _dbContext;
 
-        public AccountController(UserManager<IdentityUser> userManager, IOptions<AppSettings> appSettings, RealEstateManagementDbContext dbContext)
+        public AccountController(UserManager<AdminUser> userManager, IOptions<AppSettings> appSettings, RealEstateManagementDbContext dbContext)
         {
             _userManager = userManager;
             _appSettings = appSettings;
@@ -117,7 +117,7 @@ namespace realEstateManagementAPI.Controllers
                 //{
                 return Ok(new GeneralResponse<string>
                 {
-                    Result = "Kullanıcı Başarıyla Oluşturuldu",
+                    Result = "User created successfully",
                     IsError = false
                 });
                 //}
@@ -125,9 +125,9 @@ namespace realEstateManagementAPI.Controllers
             }
 
 
-            return Ok(new GeneralResponse<string>
+            return BadRequest(new GeneralResponse<string>
             {
-                Result = "Kullanıcı Oluşturulamadı",
+                Result = "User was not created",
                 IsError = true
             });
         }

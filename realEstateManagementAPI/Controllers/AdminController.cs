@@ -11,11 +11,9 @@ using realEstateManagementDataLayer.EntityFramework;
 using realEstateManagementEntities.Models;
 using realEstateManagementEntities.Models.Dtos;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace realEstateManagementAPI.Controllers
 {
-    [Authorize]
     public class AdminController : Controller
     {
         //private readonly IAgentService _customerService;
@@ -30,17 +28,17 @@ namespace realEstateManagementAPI.Controllers
             _estatePictureService = estatePictureService;
         }
         // GET: /<controller>/
-        [HttpGet("GetEstates/{estateType}/{propertyType}/{numberOfRooms}/{city}/{postCode}/{searchText}/{adminUserId}")]
-
-        public async Task<IActionResult> GetEstates(EstateType? estateType, PropertyType? propertyType, int? numberOfRooms, string? city, string? postCode, string? searchText, string? adminUserId)
+        [HttpGet("GetEstates")]
+        public async Task<IActionResult> GetEstates(EstateType? estateType = null, PropertyType? propertyType = null, int? numberOfRooms = null, string? city = null, string? postCode = null, string? searchText = null, string? adminUserId = null)
         {
             var spec = new EstateFilterSpesification(estateType, propertyType, numberOfRooms, city, postCode, searchText, adminUserId);
-            var estates = _estateService.ListEstatesAsync(spec);
+            var estates = await _estateService.ListEstatesAsync(spec); // Ensure this call is awaited
 
             return Ok(estates);
         }
 
-        [HttpPost]
+
+        [HttpPost("AddEstate")]
         public async Task<IActionResult> AddEstate(Estate estate)
         {
             if (!string.IsNullOrEmpty(estate.City) || !string.IsNullOrEmpty(estate.PostCode) || !string.IsNullOrEmpty(estate.Description) || !string.IsNullOrEmpty(estate.Headline))
@@ -58,7 +56,8 @@ namespace realEstateManagementAPI.Controllers
                 Code = 1
             });
         }
-        [HttpPut]
+
+        [HttpPut("EditEstate")]
         public async Task<IActionResult> EditEstate(Estate estate)
         {
             var willBeUpdatedEstate = await _estateService.GetByIdAsync(estate.Id);

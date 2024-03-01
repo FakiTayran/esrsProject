@@ -16,8 +16,4 @@
     <Folder Include="Concrete\" />
     <Folder Include="Concrete\Spesification\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\realEstateManagementEntities\realEstateManagementEntities.csproj" />
-    <ProjectReference Include="..\realEstateManagementDataLayer\realEstateManagementDataLayer.csproj" />
-  </ItemGroup>
 </Project>

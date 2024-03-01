@@ -9,10 +9,18 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace realEstateManagementDataLayer.EntityFramework
 {
-	public class RealEstateManagementDbContext : IdentityDbContext<AdminUser>
+    public class RealEstateManagementDbContext : IdentityDbContext<AdminUser>
     {
         public RealEstateManagementDbContext(DbContextOptions<RealEstateManagementDbContext> options) : base(options)
         {
+
+        }
+
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
 
         }
         public DbSet<Estate> Estates { get; set; }
@@ -20,6 +28,3 @@ namespace realEstateManagementDataLayer.EntityFramework
 
     }
 }
-
-
-

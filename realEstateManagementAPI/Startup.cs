@@ -36,6 +36,7 @@ namespace realEstateManagement
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
             services.AddCors(options =>
             {
                 options.AddPolicy(name: "AllowAll",
@@ -63,9 +64,10 @@ namespace realEstateManagement
                 options.UseNpgsql(
                     Configuration.GetConnectionString("Default")));
 
-            services.AddIdentity<AdminUser, IdentityRole>()
-                .AddEntityFrameworkStores<RealEstateManagementDbContext>()
-                .AddDefaultTokenProviders();
+            services.AddIdentity<AdminUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddEntityFrameworkStores<RealEstateManagementDbContext>()
+            .AddDefaultTokenProviders();
+           
             services
                 .AddAuthentication(options =>
                 {
@@ -89,9 +91,8 @@ namespace realEstateManagement
                 });
 
 
-
-           
             services.AddScoped<IEstateService, EstateManager>();
+            services.AddScoped<IEstatePictureService, EstatePictureManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,6 +109,8 @@ namespace realEstateManagement
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
