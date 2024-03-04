@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using realEstateManagementBusinessLayer.Abstract;
+using realEstateManagementBusinessLayer.Concrete.Spesification;
 using realEstateManagementDataLayer.EntityFramework;
 using realEstateManagementEntities.Models;
 using realEstateManagementEntities.Models.Dtos;
@@ -130,6 +132,24 @@ namespace realEstateManagementAPI.Controllers
                 Result = "User was not created",
                 IsError = true
             });
+        }
+
+
+        [HttpGet("GetAllAgents")]
+        public IActionResult GetAllAgents()
+        {
+                var users = _userManager.Users
+            .Select(u => new
+            {
+                Id = u.Id,
+                Email = u.Email,
+                UserName = u.UserName,
+                Name = u.Name, 
+                Surname = u.Surname 
+            })
+            .ToList();
+
+                return Ok(users);
         }
 
         [HttpGet("IsAuthorize")]

@@ -21,13 +21,18 @@ namespace realEstateManagementAPI.Controllers
         private readonly IEstateService _estateService;
         private readonly IEstatePictureService _estatePictureService;
         private readonly RealEstateManagementDbContext? _context;
+        private readonly UserManager<AdminUser> _userManager;
 
-        public AdminController(IEstateService estateService,IEstatePictureService estatePictureService,RealEstateManagementDbContext realEstateManagementDbContext)
+        public AdminController(UserManager<AdminUser> userManager,IEstateService estateService,IEstatePictureService estatePictureService,RealEstateManagementDbContext realEstateManagementDbContext)
         {
             _estateService = estateService;
             _context = realEstateManagementDbContext;
             _estatePictureService = estatePictureService;
+            _userManager = userManager;
         }
+
+        
+
         // GET: /<controller>/
         [HttpGet("GetEstates")]
         public async Task<IActionResult> GetEstates(EstateType? estateType = null, PropertyType? propertyType = null, int? numberOfRooms = null, string? city = null, string? postCode = null, string? searchText = null, string? adminUserId = null)
@@ -40,26 +45,34 @@ namespace realEstateManagementAPI.Controllers
 
 
         [HttpPost("AddEstate")]
-        public async Task<IActionResult> AddEstate(Estate estate)
+        public async Task<IActionResult> AddEstate([FromBody]Estate estate)
         {
             if (!string.IsNullOrEmpty(estate.City) || !string.IsNullOrEmpty(estate.PostCode) || !string.IsNullOrEmpty(estate.Description) || !string.IsNullOrEmpty(estate.Headline))
             {
-                await _estateService.AddEstate(estate);
+                var addedEstate = await _estateService.AddEstate(estate);
+                if(estate.EstateAgentId != null)
+                {
+                    var estateAgent = _userManager.Users.FirstOrDefault(x => x.Id == estate.EstateAgentId);
+                    addedEstate.EstateAgent = estateAgent;
+                }
+
+                return Ok(addedEstate);
             }
             else
             {
-                return BadRequest();
+                return Ok(new GeneralResponse<string>
+                {
+                    Result = "Some of these values might be null or empty (city,postcode,description and headline)",
+                    IsError = true,
+                    Code = 1
+                });
             }
-            return Ok(new GeneralResponse<string>
-            {
-                Result = "Some of these values might be null or empty (city,postcode,description and headline)",
-                IsError = true,
-                Code = 1
-            });
+             
+            
         }
 
         [HttpPut("EditEstate")]
-        public async Task<IActionResult> EditEstate(Estate estate)
+        public async Task<IActionResult> EditEstate([FromBody] Estate estate)
         {
             var willBeUpdatedEstate = await _estateService.GetByIdAsync(estate.Id);
             willBeUpdatedEstate.EstateType = estate.EstateType;
@@ -67,22 +80,27 @@ namespace realEstateManagementAPI.Controllers
             willBeUpdatedEstate.PostCode = estate.PostCode;
             willBeUpdatedEstate.NumberOfRooms = estate.NumberOfRooms;
             willBeUpdatedEstate.Headline = estate.Headline;
-            willBeUpdatedEstate.EstateAgent = estate.EstateAgent;
+            if (estate.EstateAgentId != willBeUpdatedEstate.EstateAgentId)
+            {
+                var estateAgent = _userManager.Users.FirstOrDefault(x => x.Id == estate.EstateAgentId);
+                willBeUpdatedEstate.EstateAgent = estateAgent;
+            }
             willBeUpdatedEstate.City = estate.City;
             if (!string.IsNullOrEmpty(estate.City) || !string.IsNullOrEmpty(estate.PostCode) || !string.IsNullOrEmpty(estate.Description) || !string.IsNullOrEmpty(estate.Headline))
             {
                 await _estateService.EditEstate(willBeUpdatedEstate);
+                return Ok(willBeUpdatedEstate);
             }
             else
             {
-                return BadRequest();
+                return BadRequest(new GeneralResponse<string>
+                {
+                    Result = "Some of these values might be null or empty (city,postcode,description and headline)",
+                    IsError = true,
+                    Code = 1
+                });
             }
-            return BadRequest(new GeneralResponse<string>
-            {
-                Result = "Some of these values might be null or empty (city,postcode,description and headline)",
-                IsError = true,
-                Code = 1
-            });
+           
         }
         [HttpDelete("DeleteEstate/{estateId}")]
         public async Task<IActionResult> DeleteEstate(int estateId)
@@ -105,7 +123,7 @@ namespace realEstateManagementAPI.Controllers
         }
 
         [HttpPost("AddEstatePhotos/{estateId}")]
-        public async Task<IActionResult> AddEstatePhotos(int estateId, [FromForm] IFormFile image)
+        public async Task<IActionResult> AddEstatePhotos(int estateId, [FromForm] List<IFormFile> imgs)
         {
             // Estate varlığının kontrolü
             var estate = await _estateService.GetByIdAsync(estateId);
@@ -114,30 +132,44 @@ namespace realEstateManagementAPI.Controllers
                 return NotFound($"Estate with ID {estateId} not found.");
             }
 
-            if (image == null || image.Length == 0)
+            if (imgs == null || imgs.Count == 0)
             {
-                return BadRequest("No image provided.");
+                return BadRequest("No images provided.");
             }
 
-            byte[] imageBytes;
-            using (var memoryStream = new MemoryStream())
+            // Create a list to store all EstatePictures
+            var estatePictures = new List<EstatePicture>();
+
+            foreach (var image in imgs)
             {
-                await image.CopyToAsync(memoryStream);
-                imageBytes = memoryStream.ToArray();
+                if (image.Length > 0)
+                {
+                    byte[] imageBytes;
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await image.CopyToAsync(memoryStream);
+                        imageBytes = memoryStream.ToArray();
+                    }
+
+                    var estatePicture = new EstatePicture()
+                    {
+                        EstateId = estateId,
+                        img = imageBytes,
+                        Estate = estate
+                    };
+
+                    var addedEstatePicture = await _estatePictureService.AddEstatePicture(estatePicture);
+                    estate.EstatePictures.Add(addedEstatePicture);
+                    await _estateService.EditEstate(estate);
+                }
             }
+            
 
-            var estatePicture = new EstatePicture()
-            {
-                Estate = estate,
-                EstateId = estateId,
-                img = imageBytes
-            };
-
-            estate.EstatePictures.Add(estatePicture);
-            await _estatePictureService.AddEstatePicture(estatePicture); 
-
-            return Ok("Image added successfully.");
+            return Ok("Images added successfully.");
         }
+
+
+
 
     }
 }

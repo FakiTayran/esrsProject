@@ -45,6 +45,9 @@ namespace realEstateManagementBusinessLayer.Concrete.Spesification
             {
                 Query.Where(x => x.EstateAgent.Id == adminUserId);
             }
+
+            Query.Include(x => x.EstateAgent);
+            Query.Include(x => x.EstatePictures);
         }
     }
 }

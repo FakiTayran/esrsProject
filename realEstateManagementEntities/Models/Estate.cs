@@ -1,12 +1,19 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using System.Xml.Linq;
 
 namespace realEstateManagementEntities.Models
 {
     public class Estate : BaseEntity
     {
+
+        public Estate()
+        {
+            EstatePictures = new HashSet<EstatePicture>();
+        }
+
         [Required]
         [Display(Name = "Property Type")]
 
@@ -30,6 +37,8 @@ namespace realEstateManagementEntities.Models
 
         public PropertyType PropertyType { get; set; }
 
+        public string? EstateAgentId { get; set; }
+        [JsonIgnore]
         public AdminUser? EstateAgent { get; set; }
 
     }
