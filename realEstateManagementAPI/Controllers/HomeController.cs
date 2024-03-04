@@ -23,13 +23,13 @@ namespace realEstateManagementAPI.Controllers
             _estateService = estateService;
             _context = realEstateManagementDbContext;
         }
-        // GET: /<controller>/
-        [HttpGet("GetEstates/{estateType}/{propertyType}/{numberOfRooms}/{city}/{postCode}/{searchText}")]
+      
 
-        public async Task<IActionResult> GetEstates(EstateType? estateType, PropertyType? propertyType, int? numberOfRooms, string? city, string? postCode, string? searchText, string? adminUserId)
+        [HttpGet("GetAllEstates")]
+        public async Task<IActionResult> GetAllEstates(EstateType? estateType = null, PropertyType? propertyType = null, int? numberOfRooms = null, string? city = null, string? postCode = null, string? searchText = null, string? adminUserId = null)
         {
             var spec = new EstateFilterSpesification(estateType, propertyType, numberOfRooms, city, postCode, searchText, adminUserId);
-            var estates = _estateService.ListEstatesAsync(spec);
+            var estates = await _estateService.ListEstatesAsync(spec); // Ensure this call is awaited
 
             return Ok(estates);
         }
