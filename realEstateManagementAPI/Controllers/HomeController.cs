@@ -7,6 +7,7 @@ using realEstateManagementBusinessLayer.Abstract;
 using realEstateManagementBusinessLayer.Concrete.Spesification;
 using realEstateManagementDataLayer.EntityFramework;
 using realEstateManagementEntities.Models;
+using realEstateManagementEntities.Models.Dtos;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,17 +24,33 @@ namespace realEstateManagementAPI.Controllers
             _estateService = estateService;
             _context = realEstateManagementDbContext;
         }
-      
+
 
         [HttpGet("GetAllEstates")]
         public async Task<IActionResult> GetAllEstates(EstateType? estateType = null, PropertyType? propertyType = null, int? numberOfRooms = null, string? city = null, string? postCode = null, string? searchText = null, string? adminUserId = null)
         {
             var spec = new EstateFilterSpesification(estateType, propertyType, numberOfRooms, city, postCode, searchText, adminUserId);
-            var estates = await _estateService.ListEstatesAsync(spec); // Ensure this call is awaited
-
-            return Ok(estates);
+            List<Estate> estates = await _estateService.ListEstatesAsync(spec); // Ensure this call is awaited
+            List<EstateDto> estateDtos = new List<EstateDto>();
+            foreach (var estate in estates)
+            {
+                EstateDto estateDto = new EstateDto(){
+                    id = estate.Id,
+                    EstateType = estate.EstateType,
+                    PropertyType = estate.PropertyType,
+                    City = estate.City,
+                    Description = estate.Description,
+                    Headline = estate.Headline,
+                    EstateAgent = estate.EstateAgent,
+                    NumberOfRooms = estate.NumberOfRooms,
+                    PostCode = estate.PostCode,          
+                    EstatePictures = estate.EstatePictures.Select(x => x.img).ToList(),
+                };
+                estateDtos.Add(estateDto);
+            }
+            
+            return Ok(estateDtos);
         }
-
 
     }
 }

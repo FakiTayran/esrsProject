@@ -11,10 +11,16 @@ namespace realEstateManagement
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+         Host.CreateDefaultBuilder(args)
+             .ConfigureWebHostDefaults(webBuilder =>
+             {
+                 webBuilder.ConfigureKestrel(serverOptions =>
+                 {
+                     // İstek başına 5 dakikalık zaman aşımı
+                     serverOptions.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(5);
+                 })
+                 .UseStartup<Startup>();
+         });
+
     }
 }
