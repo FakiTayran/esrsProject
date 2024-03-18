@@ -20,4 +20,7 @@
     <ProjectReference Include="..\realEstateManagementDataLayer\realEstateManagementDataLayer.csproj" />
     <ProjectReference Include="..\realEstateManagementEntities\realEstateManagementEntities.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Ardalis.Specification, Version=7.0.0.0, Culture=neutral, PublicKeyToken=null" />
+  </ItemGroup>
 </Project>

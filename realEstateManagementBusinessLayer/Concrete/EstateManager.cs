@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using realEstateManagementBusinessLayer.Abstract;
 using realEstateManagementDataLayer.Abstract;
 using realEstateManagementEntities.Models;
+using realEstateManagementEntities.Models.Dtos;
 
 namespace realEstateManagementBusinessLayer.Concrete
 {
@@ -36,12 +37,33 @@ namespace realEstateManagementBusinessLayer.Concrete
             return await _asyncRepository.GetByIdAsync(id);
         }
 
-        public async Task<List<Estate>> ListEstatesAsync(ISpecification<Estate> spec)
+        public async Task<List<EstateDto>> ListEstatesAsync(ISpecification<Estate> spec)
         {
-            return await _asyncRepository.ListAsync(spec);
+            List<Estate> estates = await _asyncRepository.ListAsync(spec); // Ensure this call is awaited
+
+            List<EstateDto> estateDtos = new List<EstateDto>();
+            foreach (var estate in estates)
+            {
+                EstateDto estateDto = new EstateDto()
+                {
+                    id = estate.Id,
+                    EstateType = estate.EstateType,
+                    PropertyType = estate.PropertyType,
+                    City = estate.City,
+                    Description = estate.Description,
+                    Headline = estate.Headline,
+                    EstateAgent = estate.EstateAgent,
+                    NumberOfRooms = estate.NumberOfRooms,
+                    PostCode = estate.PostCode,
+                    EstatePictures = estate.EstatePictures.Select(x => x.img).ToList(),
+                };
+                estateDtos.Add(estateDto);
+            }
+
+            return estateDtos;
         }
 
-        
+
     }
 }
 

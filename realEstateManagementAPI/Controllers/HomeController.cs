@@ -30,24 +30,7 @@ namespace realEstateManagementAPI.Controllers
         public async Task<IActionResult> GetAllEstates(EstateType? estateType = null, PropertyType? propertyType = null, int? numberOfRooms = null, string? city = null, string? postCode = null, string? searchText = null, string? adminUserId = null)
         {
             var spec = new EstateFilterSpesification(estateType, propertyType, numberOfRooms, city, postCode, searchText, adminUserId);
-            List<Estate> estates = await _estateService.ListEstatesAsync(spec); // Ensure this call is awaited
-            List<EstateDto> estateDtos = new List<EstateDto>();
-            foreach (var estate in estates)
-            {
-                EstateDto estateDto = new EstateDto(){
-                    id = estate.Id,
-                    EstateType = estate.EstateType,
-                    PropertyType = estate.PropertyType,
-                    City = estate.City,
-                    Description = estate.Description,
-                    Headline = estate.Headline,
-                    EstateAgent = estate.EstateAgent,
-                    NumberOfRooms = estate.NumberOfRooms,
-                    PostCode = estate.PostCode,          
-                    EstatePictures = estate.EstatePictures.Select(x => x.img).ToList(),
-                };
-                estateDtos.Add(estateDto);
-            }
+            List<EstateDto> estateDtos = await _estateService.ListEstatesAsync(spec); 
             
             return Ok(estateDtos);
         }
