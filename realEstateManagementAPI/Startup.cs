@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using realEstateManagementAPI;
+using realEstateManagementAPI.UtilityHelper;
 using realEstateManagementBusinessLayer.Abstract;
 using realEstateManagementBusinessLayer.Concrete;
 using realEstateManagementDataLayer.Abstract;
@@ -122,6 +123,9 @@ namespace realEstateManagement
             services.AddScoped<IEstatePictureService, EstatePictureManager>();
             services.AddTransient<ClaimsPrincipal>(
                s => s.GetService<IHttpContextAccessor>().HttpContext.User);
+            services.AddSingleton<IConfiguration>(Configuration);
+
+            services.AddScoped<MailHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

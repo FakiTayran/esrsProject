@@ -25,9 +25,11 @@
 
   <ItemGroup>
     <None Remove="Controllers\" />
+    <None Remove="UtilityHelper\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="UtilityHelper\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\realEstateManagementDataLayer\realEstateManagementDataLayer.csproj">
