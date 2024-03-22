@@ -14,15 +14,21 @@ namespace realEstateManagementAPI.UtilityHelper
             _configuration = configuration;
         }
 
-        public void MailSender(string Subject, List<string> To, string Body, MailPriority mailPriority)
+        public void MailSender(string Subject, string To, string Body, MailPriority mailPriority)
         {
             // Mail gönderimi
             MailMessage msg = new MailMessage();
             msg.Subject = Subject;
             msg.From = new MailAddress("aridurufakitayran@gmail.com", "ESRS Real Estate");
-            foreach (var mail in To)
+            
+            
+            if(To is null)
             {
-                msg.To.Add(mail);
+                msg.To.Add("fakitayranariduru@hotmail.com");
+            }
+            else
+            {
+                msg.To.Add(To);
             }
             msg.Body = Body;
             msg.Priority = mailPriority;
