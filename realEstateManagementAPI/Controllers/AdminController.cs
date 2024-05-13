@@ -123,24 +123,21 @@ namespace realEstateManagementAPI.Controllers
         }
 
         [HttpPost("AddEstatePhotos/{estateId}")]
-        public async Task<IActionResult> AddEstatePhotos(int estateId, [FromForm] List<IFormFile> imgs)
+        public async Task<IActionResult> AddEstatePhotos(int estateId, IFormCollection imgs)
         {
-            // Estate varlığının kontrolü
             var estate = await _estateService.GetByIdAsync(estateId);
             if (estate == null)
             {
                 return NotFound($"Estate with ID {estateId} not found.");
             }
 
-            if (imgs == null || imgs.Count == 0)
+            if (imgs == null || imgs.Files.Count == 0)
             {
                 return BadRequest("No images provided.");
             }
 
-            // Create a list to store all EstatePictures
-            var estatePictures = new List<EstatePicture>();
 
-            foreach (var image in imgs)
+            foreach (var image in imgs.Files)
             {
                 if (image.Length > 0)
                 {
@@ -163,11 +160,9 @@ namespace realEstateManagementAPI.Controllers
                     await _estateService.EditEstate(estate);
                 }
             }
-            
 
             return Ok("Images added successfully.");
         }
-
 
 
 
